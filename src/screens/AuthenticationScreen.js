@@ -49,7 +49,7 @@ const Logo = styled.Image`
 
 export const TextBox = styled.TextInput`
   padding: 10px;
-  width: 300px;
+  width: 100%;
   border-bottom-width: 2px;
   border-bottom-color: ${primaryColor};
   background-color: ${(props) =>

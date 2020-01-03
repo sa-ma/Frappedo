@@ -44,7 +44,12 @@ const DashboardScreen = ({ navigation }) => {
         }}
       />
       {mockData.map(({ message, complete }) => (
-        <ListItem key={message} complete={complete} message={message} />
+        <ListItem
+          key={message}
+          complete={complete}
+          message={message}
+          navigation={navigation}
+        />
       ))}
 
       <AddButton onPress={() => navigation.navigate('AddTask')}>

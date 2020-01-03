@@ -2,16 +2,16 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { primaryColor } from './Styles';
 
-const ListItem = ({ complete, message }) => {
+const ListItem = ({ complete, message, navigation }) => {
   return (
-    <Item>
+    <Item onPress={() => navigation.navigate('UpdateTask')}>
       <Dot backgroundColor={complete ? primaryColor : 'red'}></Dot>
       <Message> {message}</Message>
     </Item>
   );
 };
 
-const Item = styled.View`
+const Item = styled.TouchableOpacity`
   margin: 15px 0;
   padding: 19px;
   background-color: #ffffff;
