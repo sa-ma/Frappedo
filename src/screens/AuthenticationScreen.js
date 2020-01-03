@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import {
-  TextBox,
   ButtonContainer,
   ButtonText,
-  Form
+  Form,
+  primaryColor
 } from '../components/Styles';
 
 const AuthenticationScreen = ({ navigation }) => {
@@ -45,6 +45,15 @@ export const Container = styled.View`
 const Logo = styled.Image`
   margin-top: 168px;
   margin-bottom: 100px;
+`;
+
+export const TextBox = styled.TextInput`
+  padding: 10px;
+  width: 300px;
+  border-bottom-width: 2px;
+  border-bottom-color: ${primaryColor};
+  background-color: ${(props) =>
+    props.backgroundColor ? props.backgroundColor : '#fff'};
 `;
 
 export default AuthenticationScreen;

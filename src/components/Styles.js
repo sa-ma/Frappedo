@@ -12,7 +12,7 @@ export const Container = styled.View`
 
 export const TextBox = styled.TextInput`
   padding: 10px;
-  margin: 10px 0;
+  margin: 5px 0 10px;
   width: 300px;
   border-bottom-width: 2px;
   border-bottom-color: ${primaryColor};
@@ -48,4 +48,34 @@ export const Title = styled.Text`
 
 export const ButtonImage = styled.Image``;
 
-export const Form = styled.View``;
+export const Form = styled.View`
+  width: 100%;
+`;
+
+export const picker = {
+  padding: 10,
+  width: '100%',
+  borderBottomwidth: 2,
+  borderbottomcolor: primaryColor,
+  backgroundColor: '#fff'
+};
+
+export const CalendarButtonContainer = styled.TouchableOpacity`
+  align-self: flex-end;
+  padding: 10px;
+`;
+export const DateBox = styled.TextInput`
+  padding: 10px;
+  width: 300px;
+  border-bottom-color: ${primaryColor};
+  background-color: #fff;
+`;
+
+export const LabelText = styled.Text`
+  font-size: 14px;
+  color: ${primaryColor};
+`;
+
+export const FormGroup = styled.View`
+  width: 100%;
+`;
