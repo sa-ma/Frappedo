@@ -6,7 +6,7 @@ export const Container = styled.View`
   background-color: #fff;
   display: flex;
   padding: 22px;
-  align-items: center;
+  align-items: flex-start;
   flex: 1;
 `;
 
@@ -16,7 +16,16 @@ export const TextBox = styled.TextInput`
   width: 300px;
   border-bottom-width: 2px;
   border-bottom-color: ${primaryColor};
-  background-color: ${(props) => props.backgroundColor};
+  background-color: ${(props) =>
+    props.backgroundColor ? props.backgroundColor : '#fff'};
+`;
+
+export const Select = styled.View`
+  margin: 10px 0;
+  width: 100%;
+  border-bottom-width: 2px;
+  border-bottom-color: ${primaryColor};
+  background-color: #fff;
 `;
 
 export const ButtonContainer = styled.TouchableOpacity`
@@ -30,5 +39,13 @@ export const ButtonText = styled.Text`
   color: #fff;
   text-align: center;
 `;
+export const Title = styled.Text`
+  font-size: 24px;
+  color: ${primaryColor};
+  margin-top: 60px;
+  margin-bottom: 5px;
+`;
+
+export const ButtonImage = styled.Image``;
 
 export const Form = styled.View``;

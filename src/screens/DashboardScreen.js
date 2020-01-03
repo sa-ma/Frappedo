@@ -3,9 +3,9 @@ import moment from 'moment';
 import styled from 'styled-components';
 import DateSwitcher from '../components/DateSwitcher';
 import ListItem from '../components/ListItem';
-import { primaryColor } from '../components/Styles';
+import { Title, ButtonImage } from '../components/Styles';
 
-const DashboardScreen = () => {
+const DashboardScreen = ({ navigation }) => {
   const [date, setDate] = useState(moment());
   const [count, setCount] = useState(0);
 
@@ -23,14 +23,14 @@ const DashboardScreen = () => {
       complete: false
     },
     {
-      message: 'Read 10 books',
+      message: 'Travel to another country',
       complete: true
     }
   ];
 
   return (
     <Container>
-      <User>Hello Samaila,</User>
+      <Title>Hello Samaila,</Title>
       <Notification> You have 10 pending tasks</Notification>
       <DateSwitcher
         date={date}
@@ -44,11 +44,11 @@ const DashboardScreen = () => {
         }}
       />
       {mockData.map(({ message, complete }) => (
-        <ListItem complete={complete} message={message} />
+        <ListItem key={message} complete={complete} message={message} />
       ))}
 
-      <AddButton>
-        <AddButtonImage source={require('../../assets/btn-add.png')} />
+      <AddButton onPress={() => navigation.navigate('AddTask')}>
+        <ButtonImage source={require('../../assets/btn-add.png')} />
       </AddButton>
     </Container>
   );
@@ -62,13 +62,6 @@ const Container = styled.View`
   flex: 1;
 `;
 
-const User = styled.Text`
-  font-size: 24px;
-  color: ${primaryColor};
-  margin-top: 60px;
-  margin-bottom: 5px;
-`;
-
 const Notification = styled.Text`
   font-size: 16px;
   margin-bottom: 40px;
@@ -79,7 +72,5 @@ const AddButton = styled.TouchableOpacity`
   right: 20px;
   bottom: 10px;
 `;
-
-const AddButtonImage = styled.Image``;
 
 export default DashboardScreen;

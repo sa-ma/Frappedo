@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import {
-  Container,
   TextBox,
   ButtonContainer,
   ButtonText,
@@ -34,6 +33,14 @@ const AuthenticationScreen = ({ navigation }) => {
     </Container>
   );
 };
+
+export const Container = styled.View`
+  background-color: #fff;
+  display: flex;
+  padding: 22px;
+  align-items: center;
+  flex: 1;
+`;
 
 const Logo = styled.Image`
   margin-top: 168px;
