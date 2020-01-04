@@ -79,3 +79,10 @@ export const LabelText = styled.Text`
 export const FormGroup = styled.View`
   width: 100%;
 `;
+
+export const LoadingIcon = styled.ActivityIndicator`
+  color: ${(props) => (props.color ? props.color : '#FFF')};
+  flex: 1;
+  justify-content: center;
+  padding: 10px;
+`;
