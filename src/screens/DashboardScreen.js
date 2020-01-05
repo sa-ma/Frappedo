@@ -4,11 +4,22 @@ import styled from 'styled-components';
 import DateSwitcher from '../components/DateSwitcher';
 import ListItem from '../components/ListItem';
 import { Title, ButtonImage } from '../components/Styles';
+import api from '../utils/api';
 
 const DashboardScreen = ({ navigation }) => {
   const [date, setDate] = useState(moment());
   const [count, setCount] = useState(0);
 
+  const handleLogOut = async () => {
+    try {
+      const { status } = await api.get('/api/method/logout');
+      if (status === 200) {
+        navigation.navigate('loginFlow');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const mockData = [
     {
       message: 'Read 10 books',
@@ -52,6 +63,10 @@ const DashboardScreen = ({ navigation }) => {
         />
       ))}
 
+      <LogOutButton onPress={() => handleLogOut()}>
+        <ButtonImage source={require('../../assets/icon-log-out.png')} />
+      </LogOutButton>
+
       <AddButton onPress={() => navigation.navigate('AddTask')}>
         <ButtonImage source={require('../../assets/btn-add.png')} />
       </AddButton>
@@ -75,7 +90,13 @@ const Notification = styled.Text`
 const AddButton = styled.TouchableOpacity`
   position: absolute;
   right: 20px;
-  bottom: 10px;
+  bottom: 20px;
+`;
+
+const LogOutButton = styled.TouchableOpacity`
+  position: absolute;
+  right: 20px;
+  bottom: 100px;
 `;
 
 export default DashboardScreen;
