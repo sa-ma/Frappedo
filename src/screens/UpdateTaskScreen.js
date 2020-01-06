@@ -37,7 +37,7 @@ const UpdateTaskScreen = () => {
     <Container>
       <Title>Update Task</Title>
 
-      <Form>
+      <Form style={{ marginTop: 30 }}>
         <FormGroup style={{ marginTop: 13 }}>
           <LabelText>Title</LabelText>
           <TextBox placeholder="Title" style={{ width: '100%' }} />
@@ -86,16 +86,6 @@ const UpdateTaskScreen = () => {
           </Select>
         </FormGroup>
 
-        <FormGroup>
-          <LabelText>Description</LabelText>
-          <TextBox
-            placeholder="Description"
-            style={{ width: '100%' }}
-            textAlignVertical={'top'}
-            multiline
-            numberOfLines={6}
-          />
-        </FormGroup>
         <ButtonContainer
           style={{ width: '100%' }}
           onPress={() => navigation.navigate('Dashboard')}

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from 'react-native';
+import { ToastAndroid } from 'react-native';
 import moment from 'moment';
+import api from '../utils/api';
 
 import {
   picker,
@@ -16,31 +18,68 @@ import {
   ButtonContainer,
   ButtonText,
   ButtonImage,
-  Select
+  Select,
+  LoadingIcon
 } from '../components/Styles';
 
-const AddTaskScreen = () => {
-  const [status, setStatus] = useState('pending');
+const AddTaskScreen = ({ navigation }) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState('');
+  const [title, setTitle] = useState('');
+  const [status, setStatus] = useState('Open');
   const [pickDate, setPickDate] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
   const [displayDate, setDisplayDate] = useState(
-    moment(pickDate).format('D-M-YYYY')
+    moment(pickDate).format('YYYY-M-D')
   );
   const setDate = (event, date) => {
     date = date || pickDate;
     setShowDate(Platform.OS === 'ios' ? true : false);
     setPickDate(date || pickDate);
-    setDisplayDate(moment(date).format('D-M-YYYY'));
+    setDisplayDate(moment(date).format('YYYY-M-D'));
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    if (title === '' || displayDate === '' || status === '') {
+      setLoading(false);
+      setMessage('Cannot submit empty fields');
+      setError(true);
+      setTimeout(() => setError(false), 2000);
+      return;
+    }
+    try {
+      const response = await api.post('/api/resource/ToDo', {
+        description: title,
+        date: displayDate,
+        status: status
+      });
+      setLoading(false);
+      navigation.navigate('Dashboard');
+      return;
+    } catch (error) {
+      setLoading(false);
+      setMessage('Error Submitting Task');
+      console.log(error);
+      setError(true);
+      setTimeout(() => setError(false), 2000);
+    }
   };
 
   return (
     <Container>
       <Title>Add Task</Title>
-
-      <Form>
-        <FormGroup style={{ marginTop: 13 }}>
+      {error && ToastAndroid.show(message, ToastAndroid.SHORT)}
+      <Form style={{ marginTop: 30 }}>
+        <FormGroup>
           <LabelText>Title</LabelText>
-          <TextBox placeholder="Title" style={{ width: '100%' }} />
+          <TextBox
+            placeholder="Title"
+            style={{ width: '100%' }}
+            value={title}
+            onChangeText={(value) => setTitle(value)}
+          />
         </FormGroup>
 
         <FormGroup>
@@ -80,27 +119,21 @@ const AddTaskScreen = () => {
               mode="dropdown"
               onValueChange={(value) => setStatus(value)}
             >
-              <Picker.Item label="Pending" value="pending" />
-              <Picker.Item label="Completed" value="completed" />
+              <Picker.Item label="Pending" value="Open" />
+              <Picker.Item label="Completed" value="Closed" />
             </Picker>
           </Select>
         </FormGroup>
 
-        <FormGroup>
-          <LabelText>Description</LabelText>
-          <TextBox
-            placeholder="Description"
-            style={{ width: '100%' }}
-            textAlignVertical={'top'}
-            multiline
-            numberOfLines={6}
-          />
-        </FormGroup>
         <ButtonContainer
           style={{ width: '100%' }}
-          onPress={() => navigation.navigate('Dashboard')}
+          onPress={() => handleSubmit()}
         >
-          <ButtonText>Add Task</ButtonText>
+          {loading ? (
+            <LoadingIcon size="large" color="#fff" />
+          ) : (
+            <ButtonText>Add Task</ButtonText>
+          )}
         </ButtonContainer>
       </Form>
     </Container>
