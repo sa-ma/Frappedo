@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { primaryColor } from './Styles';
 
-const ListItem = ({ complete, message, navigation }) => {
+const ListItem = ({ id, complete, message, navigation }) => {
   return (
-    <Item onPress={() => navigation.navigate('UpdateTask')}>
-      <Dot backgroundColor={complete ? primaryColor : 'red'}></Dot>
+    <Item onPress={() => navigation.navigate('UpdateTask', { id })}>
+      <Dot backgroundColor={complete === 'Closed' ? primaryColor : 'red'}></Dot>
       <Message> {message}</Message>
     </Item>
   );

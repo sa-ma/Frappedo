@@ -114,7 +114,7 @@ const AddTaskScreen = ({ navigation }) => {
           <LabelText>Status</LabelText>
           <Select>
             <Picker
-              selectededValue={status}
+              selectedValue={status}
               style={picker}
               mode="dropdown"
               onValueChange={(value) => setStatus(value)}

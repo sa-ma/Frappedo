@@ -19,7 +19,7 @@ import {
   Select
 } from '../components/Styles';
 
-const UpdateTaskScreen = () => {
+const UpdateTaskScreen = ({ navigation }) => {
   const [status, setStatus] = useState('pending');
   const [pickDate, setPickDate] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
@@ -32,7 +32,8 @@ const UpdateTaskScreen = () => {
     setPickDate(date || pickDate);
     setDisplayDate(moment(date).format('D-M-YYYY'));
   };
-
+  const id = navigation.getParam('id');
+  console.log(id);
   return (
     <Container>
       <Title>Update Task</Title>
