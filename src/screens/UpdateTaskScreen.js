@@ -53,7 +53,7 @@ const AddTaskScreen = ({ navigation }) => {
       return;
     }
     try {
-      const response = await api.put(`/api/resource/ToDo/${id}`, {
+      await api.put(`/api/resource/ToDo/${id}`, {
         description: title,
         date: displayDate,
         status: status
@@ -63,7 +63,22 @@ const AddTaskScreen = ({ navigation }) => {
       return;
     } catch (error) {
       setLoading(false);
-      setMessage('Error Submitting Task');
+      setMessage('Error Updating Task');
+      setError(true);
+      setTimeout(() => setError(false), 2000);
+    }
+  };
+
+  const handleDelete = async () => {
+    setLoading(true);
+    try {
+      await api.delete(`/api/resource/ToDo/${id}`);
+      setLoading(false);
+      navigation.navigate('Dashboard');
+      return;
+    } catch (error) {
+      setLoading(false);
+      setMessage('Error Deleting Task');
       console.log(error);
       setError(true);
       setTimeout(() => setError(false), 2000);
@@ -82,7 +97,6 @@ const AddTaskScreen = ({ navigation }) => {
     } catch (error) {
       setLoading(false);
       setMessage('Error Submitting Task');
-      console.log(error);
       setError(true);
       setTimeout(() => setError(false), 2000);
     }
@@ -157,6 +171,18 @@ const AddTaskScreen = ({ navigation }) => {
             <LoadingIcon size="large" color="#fff" />
           ) : (
             <ButtonText>Update Task</ButtonText>
+          )}
+        </ButtonContainer>
+
+        <ButtonContainer
+          color = "#eb5757"
+          style={{ width: '100%' }}
+          onPress={() => handleDelete()}
+        >
+          {loading ? (
+            <LoadingIcon size="large" color="#fff" />
+          ) : (
+            <ButtonText>Delete Task</ButtonText>
           )}
         </ButtonContainer>
       </Form>

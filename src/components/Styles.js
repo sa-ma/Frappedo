@@ -29,7 +29,7 @@ export const Select = styled.View`
 `;
 
 export const ButtonContainer = styled.TouchableOpacity`
-  background-color: ${primaryColor};
+  background-color: ${props => props.color? props.color :primaryColor};
   padding: 15px;
   border-radius: 100px;
   margin-top: 22px;
