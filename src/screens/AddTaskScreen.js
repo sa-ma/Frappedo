@@ -27,7 +27,6 @@ const AddTaskScreen = ({ navigation }) => {
   const [error, setError] = useState(false);
   const [message, setMessage] = useState('');
   const [title, setTitle] = useState('');
-  const [status, setStatus] = useState('Open');
   const [pickDate, setPickDate] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
   const [displayDate, setDisplayDate] = useState(
@@ -42,7 +41,7 @@ const AddTaskScreen = ({ navigation }) => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    if (title === '' || displayDate === '' || status === '') {
+    if (title === '' || displayDate === '') {
       setLoading(false);
       setMessage('Cannot submit empty fields');
       setError(true);
@@ -50,10 +49,10 @@ const AddTaskScreen = ({ navigation }) => {
       return;
     }
     try {
-      const response = await api.post('/api/resource/ToDo', {
+      await api.post('/api/resource/ToDo', {
         description: title,
         date: displayDate,
-        status: status
+        status: "Open"
       });
       setLoading(false);
       navigation.navigate('Dashboard');
@@ -110,21 +109,7 @@ const AddTaskScreen = ({ navigation }) => {
           </Select>
         </FormGroup>
 
-        <FormGroup>
-          <LabelText>Status</LabelText>
-          <Select>
-            <Picker
-              selectedValue={status}
-              style={picker}
-              mode="dropdown"
-              onValueChange={(value) => setStatus(value)}
-            >
-              <Picker.Item label="Pending" value="Open" />
-              <Picker.Item label="Completed" value="Closed" />
-            </Picker>
-          </Select>
-        </FormGroup>
-
+        
         <ButtonContainer
           style={{ width: '100%' }}
           onPress={() => handleSubmit()}
