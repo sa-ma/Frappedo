@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Picker } from 'react-native';
 import { ToastAndroid } from 'react-native';
 import moment from 'moment';
-import api from '../utils/api';
-
+import useTask from '../hooks/useTask';
 import {
-  picker,
   Form,
   FormGroup,
   CalendarButtonContainer,
@@ -23,47 +20,19 @@ import {
 } from '../components/Styles';
 
 const AddTaskScreen = ({ navigation }) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [message, setMessage] = useState('');
   const [title, setTitle] = useState('');
   const [pickDate, setPickDate] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
   const [displayDate, setDisplayDate] = useState(
     moment(pickDate).format('YYYY-M-D')
   );
+  const [loading, error, message, handleSubmit] = useTask();
+
   const setDate = (event, date) => {
     date = date || pickDate;
     setShowDate(Platform.OS === 'ios' ? true : false);
     setPickDate(date || pickDate);
     setDisplayDate(moment(date).format('YYYY-M-D'));
-  };
-
-  const handleSubmit = async () => {
-    setLoading(true);
-    if (title === '' || displayDate === '') {
-      setLoading(false);
-      setMessage('Cannot submit empty fields');
-      setError(true);
-      setTimeout(() => setError(false), 2000);
-      return;
-    }
-    try {
-      await api.post('/api/resource/ToDo', {
-        description: title,
-        date: displayDate,
-        status: "Open"
-      });
-      setLoading(false);
-      navigation.navigate('Dashboard');
-      return;
-    } catch (error) {
-      setLoading(false);
-      setMessage('Error Submitting Task');
-      console.log(error);
-      setError(true);
-      setTimeout(() => setError(false), 2000);
-    }
   };
 
   return (
@@ -109,10 +78,9 @@ const AddTaskScreen = ({ navigation }) => {
           </Select>
         </FormGroup>
 
-        
         <ButtonContainer
           style={{ width: '100%' }}
-          onPress={() => handleSubmit()}
+          onPress={() => handleSubmit(title, displayDate, navigation)}
         >
           {loading ? (
             <LoadingIcon size="large" color="#fff" />

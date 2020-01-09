@@ -9,40 +9,14 @@ import {
   primaryColor,
   LoadingIcon
 } from '../components/Styles';
-import api from '../utils/api';
+import useAuthentication from '../hooks/useAuthentication';
 
 const AuthenticationScreen = ({ navigation }) => {
   const [focus, setFocus] = useState(true);
-  const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState(false);
+  const [loading, message, error, handleAuthentication] = useAuthentication();
 
-  const handleAuthentication = async () => {
-    setLoading(true);
-    if (username === '' || password === '') {
-      setLoading(false);
-      setMessage('Username or Password Invalid');
-      setError(true);
-      setTimeout(() => setError(false), 2000);
-      return;
-    }
-    try {
-      const response = await api.post('/api/method/login', {
-        usr: username,
-        pwd: password
-      });
-      setLoading(false);
-      navigation.navigate('Dashboard');
-      return;
-    } catch (error) {
-      setLoading(false);
-      setMessage('Wrong username or Password');
-      setError(true);
-      setTimeout(() => setError(false), 2000);
-    }
-  };
   return (
     <Container>
       <Logo source={require('../../assets/Frappedo.png')} />
@@ -78,7 +52,9 @@ const AuthenticationScreen = ({ navigation }) => {
           />
         </FormGroup>
 
-        <ButtonContainer onPress={() => handleAuthentication()}>
+        <ButtonContainer
+          onPress={() => handleAuthentication(username, password, navigation)}
+        >
           {loading ? (
             <LoadingIcon size="large" color="#fff" />
           ) : (

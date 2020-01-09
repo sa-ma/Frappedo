@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import useList from '../hooks/useList';
 import { ScrollView } from 'react-native';
 import moment from 'moment';
 import styled from 'styled-components';
@@ -10,23 +11,12 @@ import {
   ButtonImage,
   LoadingIcon
 } from '../components/Styles';
-import { handleLogOut, loadData } from '../utils/helpers';
+import { handleLogOut } from '../utils/helpers';
 
 const DashboardScreen = ({ navigation }) => {
-  const [loading, setLoading] = useState(false);
   const [date, setDate] = useState(moment());
   const [count, setCount] = useState(0);
-  const [tasks, setTasks] = useState([]);
-  const [user, setUser] = useState('');
-
-  useEffect(() => {
-    loadData(date, setLoading, setTasks, setUser);
-    const didFocusSubscription = navigation.addListener('didFocus', () =>
-      loadData(date, setLoading, setTasks, setUser)
-    );
-
-    return () => didFocusSubscription.remove();
-  }, [count, date]);
+  const [loading, user, tasks] = useList(navigation, count, date);
 
   return loading ? (
     <LoadingContainer>
